@@ -1,0 +1,1 @@
+A simple exercise to practice with the Observer pattern.
