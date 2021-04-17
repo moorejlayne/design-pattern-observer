@@ -2,19 +2,22 @@ package headFirstDesignPatterns.java.seekers;
 
 import headFirstDesignPatterns.java.clinics.Clinic;
 
+import java.util.ArrayList;
+
 public class AppointmentSeeker implements Observer {
     private boolean hasAppointment;
-    private Clinic clinic;
+    private ArrayList<Clinic> clinics;
 
-    public AppointmentSeeker(Clinic clinic) {
+    public AppointmentSeeker(ArrayList<Clinic> clinics) {
         this.hasAppointment = false;
-        this.clinic = clinic;
-        clinic.registerObserver(this);
+        this.clinics = clinics;
+        this.clinics.forEach(clinic -> clinic.registerObserver(this));
     }
 
-    public void update() {
-//        System.out.println("There's been a change in appointment availability. Let's check it out.");
+    public void update(String clinicName) {
+        Clinic clinic = clinics.stream().filter(clinicInList -> clinicInList.getClinicName().equals(clinicName)).findFirst().get();
         if(!hasAppointment()) {
+            System.out.println("Checking appointments at " + clinic.getClinicName() + "...");
             if (clinic.hasAppointments()) {
                 System.out.println("Appointments available!! Attempting to signup.");
                 String appointment = clinic.getAppointments().get(0);
@@ -29,8 +32,6 @@ public class AppointmentSeeker implements Observer {
             } else {
                 System.out.println("No appointments available. :(");
             }
-        } else {
-            System.out.println("There's been a change in appointment availability, but you already have an appointment. Why are you still looking?");
         }
     }
 

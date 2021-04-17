@@ -2,8 +2,6 @@ package headFirstDesignPatterns.java.clinics;
 
 import headFirstDesignPatterns.java.seekers.Observer;
 import java.util.ArrayList;
-import java.util.Map;
-
 
 public class Clinic implements Subject {
     private String clinicName;
@@ -51,8 +49,12 @@ public class Clinic implements Subject {
 
     public void notifyObservers() {
         for (Observer observer : observers) {
-            observer.update();
+            observer.update(getClinicName());
         }
+    }
+
+    public void printObservers() {
+        this.observers.forEach(observer -> System.out.println("Observer: " + observer));
     }
 
     public String getClinicName() {
